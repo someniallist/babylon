@@ -5,12 +5,16 @@
   "description": "I don't know what I'm doing.",
   "version": "1.0",
 
-  "defaul_locale": "en",
-
   "browser_action": {
     "default_icon": "icon.png",
     "default_popup": "popup.html"
   },
+  "content_scripts": [
+    {
+      "matches": ["*://orderup.com/admin/restaurants/*/audits"],
+      "js": ["content/auditpage.js", "lib/jquery.js"]
+    }
+  ],
   "permissions": [
     "activeTab",
     "https://ajax.googleapis.com/"
