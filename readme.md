@@ -1,4 +1,4 @@
-# Audit Beautifier <small>(name pending)</small>
+# Audit Beautifier <small>Babylon</small>
 
 ## Synopsis
 A Chrome extension that parses the audit information in Tokyo for a restaurant's menu audits and shows a diff to the user.
