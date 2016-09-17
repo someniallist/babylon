@@ -1,11 +1,28 @@
-$("dt").each(function (index) {   // determine the index number of the dt element
+$("dt").each(function (index) {   // determine the index number of <dt>
   var searchResult = $(this).text().trim();
   switch (searchResult) {
     case "timesets":
     case "optionGroups":
     case "prices":
     case "sizes":
-      return console.log(index); 
+      var keywordIndex = index;
+        $("dd").each(function(index) { // match <dd>'s index with <dt>'s
+          if (index === keywordIndex) {
+            var beforeData = $(this).attr("data-old");
+            var afterData = $(this).attr("data-new");
+            if (beforeData == "") { // make data-old obvious
+              beforeData = "Blank";
+            }
+            if (afterData == "") { // make data-new obvious
+              afterData = "Blank";
+            }
+            console.log("audit type: " + searchResult);
+            console.log("before:")
+            console.log(beforeData);
+            console.log("after:")
+            console.log(afterData);
+          };
+        });
       break;
   };
 });
