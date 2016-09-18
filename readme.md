@@ -19,6 +19,7 @@ Load this repository as an extension in Chrome. Make sure you have **Developer M
 ## Technology
 * **[jQuery](https://jquery.com/)** for DOM manipulation
 * **[google-diff-match-patch](https://code.google.com/p/google-diff-match-patch/)** for diffing
+* **[Diff & patch JavaScript objects](https://github.com/benjamine/jsondiffpatch)** visual diff patch
 
 ## Contributors
 * Niall Casey

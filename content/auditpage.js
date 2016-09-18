@@ -2,25 +2,26 @@ $("dt").each(function (index) {   // determine the index number of <dt>
   var searchResult = $(this).text().trim();
   switch (searchResult) {
     case "timesets":
-    case "optionGroups":
+    case "optionGroups": // for existing items
     case "prices":
     case "sizes":
+    case "options": // for new items
       var keywordIndex = index;
         $("dd").each(function(index) { // match <dd>'s index with <dt>'s
           if (index === keywordIndex) {
             var beforeData = $(this).attr("data-old");
             var afterData = $(this).attr("data-new");
+            var $rubyHash = $(this).text().trim();
             if (beforeData == "") { // make data-old obvious
               beforeData = "Blank";
             }
             if (afterData == "") { // make data-new obvious
               afterData = "Blank";
             }
-            console.log("audit type: " + searchResult);
-            console.log("before:")
-            console.log(beforeData);
-            console.log("after:")
-            console.log(afterData);
+
+          var beforeJSON = hashToJSON(beforeData);
+          var afterJSON = hashToJSON(afterData);
+          $(this).text("before: " + beforeJSON + "\n" + "after:" + afterJSON);
           };
         });
       break;
@@ -28,10 +29,15 @@ $("dt").each(function (index) {   // determine the index number of <dt>
 });
 
 
+function hashToJSON(hash) {
+  var jsonString = hash.replace(/(".*?)("=>)(nil)/g, function(match, p1, p2) {
+    return `${p1+p2}null`
+  }).replace(/(".*?)(")(=>)/g, function(match, p1, p2) {
+    return `${p1+p2}:`
+  });
 
-  // use $(this).text().trim() to get all the keywords
-  // if the keyword matches one of the keywords that we're looking for,
-  // do a console.log() of the matching <dd> (not the <dt>)
+  var jsonParse = JSON.parse(jsonString)
 
+  return jsonParse
 
-  // timesets, optionGroups, prices, sizes
+}
