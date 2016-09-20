@@ -22,3 +22,4 @@ Load this repository as an extension in Chrome. Make sure you have **Developer M
 
 ## Contributors
 * [Niall Casey](https://github.com/theniall)
+* [Francisco Mapilis](https://github.com/fmapilis)

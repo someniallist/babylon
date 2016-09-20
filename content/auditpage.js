@@ -6,6 +6,7 @@ $("dt").each(function (index) {   // determine the index number of <dt>
     case "prices":
     case "sizes":
     case "options": // for new items
+    case "restriction":
         $("dd").eq(index).each(function(index) { // match <dd>'s index with <dt>'s
             var beforeData = $(this).attr("data-old");
             var afterData = $(this).attr("data-new");
@@ -20,7 +21,7 @@ $("dt").each(function (index) {   // determine the index number of <dt>
           var left = hashToJSON(beforeData);
           var right = hashToJSON(afterData);
           var delta = jsondiffpatch.diff(left, right);
-          jsondiffpatch.console.log(delta);
+          $(this).html(jsondiffpatch.formatters.html.format(delta));
         });
       break;
   };
