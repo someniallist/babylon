@@ -18,7 +18,7 @@
   "content_scripts": [
     {
       "matches": ["*://orderup.com/admin/restaurants/*/audits"],
-      "js": ["lib/jquery.js", "content/auditpage.js"]
+      "js": ["lib/jsondiffpatch-full.min.js", "lib/jquery.js", "content/auditpage.js"]
     }
   ],
   "permissions": [
