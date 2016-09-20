@@ -4,10 +4,6 @@
   "name": "Babylon",
   "description": "Audit Page - Beautification",
   "version": "1.0",
-  "background":  {
-    "scripts": ["lib/jquery.js", "eventpage.js"],
-    "persistent": false
-  },
   "browser_action": {
     "default_icon": "iconactive.png",
     "default_popup": "popup.html"
@@ -18,7 +14,8 @@
   "content_scripts": [
     {
       "matches": ["*://orderup.com/admin/restaurants/*/audits"],
-      "js": ["lib/jsondiffpatch-full.min.js", "lib/jquery.js", "content/auditpage.js"]
+      "js": ["lib/jsondiffpatch/jsondiffpatch.js", "lib/jsondiffpatch/jsondiffpatch-formatters.js", "lib/jquery.js", "content/auditpage.js"],
+      "css": ["lib/jsondiffpatch/annotated.css", "lib/jsondiffpatch/html.css"]
     }
   ],
   "permissions": [
