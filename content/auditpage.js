@@ -1,12 +1,12 @@
 $("dt").each(function (index) {   // determine the index number of <dt>
   var searchResult = $(this).text().trim();
   switch (searchResult) {
-    case "timesets":
     case "optionGroups": // for existing items
     case "prices":
     case "sizes":
     case "options": // for new items
     case "restriction":
+    case "timesets":
         $("dd").eq(index).each(function(index) { // match <dd>'s index with <dt>'s
             var beforeData = $(this).attr("data-old");
             var afterData = $(this).attr("data-new");
@@ -40,3 +40,5 @@ function hashToJSON(hash) {
   return jsonParse
 
 }
+
+// restriction, timesets do not have a "name" property
