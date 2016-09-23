@@ -1,3 +1,31 @@
 <html>
-<div>Hello world</div>
+  <head>
+    <script src="lib/jquery.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="content/auditpage.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
+  </head>
+
+  <div class = "panel panel-default">
+     <div class = "panel-heading">
+        <h3 class = "panel-title">
+           Audit Display
+        </h3>
+     </div>
+
+     <div class = "panel-body">
+       <div class="btn-group-vertical" role="group" aria-label="...">
+         <button type="button" class="btn btn-primary active" id="visualbutton">
+           Visual Differences
+         </button>
+         <button type="button" class="btn btn-primary disabled" id="annotatedbutton">
+           Show Unchanged Values (Coming Soon)
+         </button>
+         <button type="button" class="btn btn-primary disabled" id="defaultbutton">
+           Tokyo Default (Coming Soon)
+         </button>
+       </div>
+     </div>
+  </div>
+
 </html>

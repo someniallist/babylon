@@ -3,7 +3,7 @@
 
   "name": "Babylon",
   "description": "Audit Page - Beautification",
-  "version": "1.0",
+  "version": "1.2",
   "browser_action": {
     "default_icon": "iconactive.png",
     "default_popup": "popup.html"
