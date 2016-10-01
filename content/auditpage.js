@@ -1,3 +1,5 @@
+
+
 $("dt").each(function (index) {   // determine the index number of <dt>
   var searchResult = $(this).text().trim();
   switch (searchResult) {
@@ -18,10 +20,15 @@ $("dt").each(function (index) {   // determine the index number of <dt>
             afterData = "{}";
           }
 
-        var left = hashToJSON(beforeData);
-        var right = hashToJSON(afterData);
-        var delta = jsondiffpatch.diff(left, right);
-        $(this).html(jsondiffpatch.formatters.html.format(delta));
+          var left = hashToJSON(beforeData);
+          var right = hashToJSON(afterData);
+          var delta = jsondiffpatch.diff(left, right);
+
+          for (var i in delta) {
+            var name = JSON.stringify(delta[i].name);
+            console.log(name);
+          }
+          $(this).html(jsondiffpatch.formatters.html.format(delta));
       });
       break;
     case "visible": //string diffing
@@ -47,6 +54,45 @@ $("dt").each(function (index) {   // determine the index number of <dt>
     case "orderForLaterLeadTime":
     case "id":
     case "delivery_days":
+    case "notified_by_phone":
+    case "status":
+    case "sourceRestaurantID":
+    case "registration_status":
+    case "icons":
+    case "restaurant_id":
+    case "theme":
+    case "domain_name":
+    case "palette":
+    case "registration_status":
+    case "logo_file_name":
+    case "logo_content_type":
+    case "logo_file_size":
+    case "logo_fingerprint":
+    case "logo_updated_at":
+    case "yelp_id":
+    case "latitude":
+    case "longitude":
+    case "delivery_service_id":
+    case "order_for_later_min_minutes_from_open":
+    case "order_for_later_max_days_ahead":
+    case "order_for_later_max_orders_per_time_slot":
+    case "processing_type":
+    case "loyalty_cash_accrual_rate":
+    case "tax_group_id":
+    case "salesforce_rep_email":
+    case "time_zone":
+    case "primary_color":
+    case "secondary_color":
+    case "exposure":
+    case "city":
+    case "override_ready_at":
+    case "zip_code":
+    case "state":
+    case "restaurant_category_id":
+    case "orderForLaterLeadTime":
+    case "descriptors":
+    case "address_1":
+
       $("dd").eq(index).each(function(index) {
         var beforeData = $(this).attr("data-old");
         var afterData = $(this).attr("data-new");
