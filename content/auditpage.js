@@ -128,3 +128,10 @@ function hashToJSON(hash) {
 }
 
 // restriction, timesets do not have a "name" property
+
+chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+  if(msg.request == "logTime") {
+    console.log(Date.now())
+  }
+
+})
