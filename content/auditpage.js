@@ -1,4 +1,4 @@
-
+determineTimeZone();
 
 $("dt").each(function (index) {   // determine the index number of <dt>
   var searchResult = $(this).text().trim();
@@ -22,17 +22,46 @@ $("dt").each(function (index) {   // determine the index number of <dt>
 
           var left = hashToJSON(beforeData);
           var right = hashToJSON(afterData);
-          var delta = jsondiffpatch.diff(left, right);
 
-          for (var i in delta) {
-            var name = JSON.stringify(delta[i].name);
-            console.log(name);
+          if (beforeData != afterData){
+            // for (var i in left) {
+            //   if (left[i].hasOwnProperty('name')) {
+            //     right[i].identifier = left[i].name;
+            //     for (var j in left[i].options) {
+            //       if (left[i].options[j].hasOwnProperty('name')) {
+            //         right[i].options[j].identifier = left[i][j].options.name;
+            //       }
+            //     }
+            //   }
+            // }
+            var delta = jsondiffpatch.diff(left, right);
+            $(this).html(jsondiffpatch.formatters.html.format(delta));
           }
-          $(this).html(jsondiffpatch.formatters.html.format(delta));
+          else {
+            var delta = jsondiffpatch.diff(left, right);
+            $(this).html("No Change");
+          };
+
       });
       break;
-    case "visible": //string diffing
+    case "id": //string diffing name excluded
     case "name":
+      var beforeData = $(this).attr("data-old");
+      var afterData = $(this).attr("data-new");
+      if (beforeData == "") { // make data-old empty json object
+        beforeData = "{}";
+      }
+      if (afterData == "") { // make data-new empty json object
+        afterData = "{}";
+      }
+      var left = JSON.parse(JSON.stringify({val: beforeData}));
+      var right = JSON.parse(JSON.stringify({val: afterData}));
+      var delta = jsondiffpatch.diff(left, right);
+
+      if (beforeData != afterData){
+        $(this).html(jsondiffpatch.formatters.html.format(delta));
+      }
+      break;
     case "available":
     case "orderType":
     case "description":
@@ -52,7 +81,7 @@ $("dt").each(function (index) {   // determine the index number of <dt>
     case "perOrderLimit":
     case "perAccountOrderLimit":
     case "orderForLaterLeadTime":
-    case "id":
+    case "visible":
     case "delivery_days":
     case "notified_by_phone":
     case "status":
@@ -92,10 +121,17 @@ $("dt").each(function (index) {   // determine the index number of <dt>
     case "orderForLaterLeadTime":
     case "descriptors":
     case "address_1":
-
+    case "created_at":
+    case "updated_at":
       $("dd").eq(index).each(function(index) {
         var beforeData = $(this).attr("data-old");
         var afterData = $(this).attr("data-new");
+          if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/.test(beforeData)) { // Date reformatting
+            beforeData = new Date(beforeData).toLocaleString('en-US', { timeZone: marketZone });
+          }
+          if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.000Z$/.test(afterData)) { // Date reformatting
+            afterData = new Date(afterData).toLocaleString('en-US', { timeZone: marketZone });
+          }
         if (beforeData == "") { // make data-old empty json object
           beforeData = "{}";
         }
@@ -105,8 +141,12 @@ $("dt").each(function (index) {   // determine the index number of <dt>
         var left = JSON.parse(JSON.stringify({val: beforeData}));
         var right = JSON.parse(JSON.stringify({val: afterData}));
         var delta = jsondiffpatch.diff(left, right);
+
         if (beforeData != afterData){
           $(this).html(jsondiffpatch.formatters.html.format(delta));
+        }
+        else {
+          $(this).html("No Change");
         };
       });
       break;
@@ -127,11 +167,80 @@ function hashToJSON(hash) {
 
 }
 
-// restriction, timesets do not have a "name" property
+// chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+//   if(msg.request == "logTime") {
+//     console.log(Date.now())
+//   }
+//
+// })
 
-chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-  if(msg.request == "logTime") {
-    console.log(Date.now())
-  }
 
-})
+function determineTimeZone() {
+  var market = $(".dropdown-toggle:first").text().trim()
+  switch (market) {
+    case "Baltimore, MD": //East Coast
+    case "Boston, MA":
+    case "BtownMenus":
+    case "Buffalo, NY":
+    case "Charlottesville, VA":
+    case "Chesapeake, VA":
+    case "Cincinnati, OH":
+    case "Columbus, OH":
+    case "Fayetteville, NC":
+    case "Gloucester County, NJ":
+    case "HungryBoiler":
+    case "Indianapolis, IN":
+    case "Morgantown, WV":
+    case "New York, NY":
+    case "Norfolk, VA":
+    case "Northwest Atlanta, GA":
+    case "Orlando, FL":
+    case "Pittsburgh, PA":
+    case "Providence, RI":
+    case "Raleigh, NC":
+    case "Richmond, VA":
+    case "State College, PA":
+    case "Towson, MD":
+    case "Virginia Beach, VA":
+    case "West Chester, PA":
+    case "Williamsburg, VA":
+      var marketZone = 'America/New_York';
+      break;
+    case "Austin, TX": // central markets
+    case "Champaign, IL":
+    case "Chicago, IL":
+    case "College Station, TX":
+    case "Columbia, MO":
+    case "Iowa City, IA":
+    case "Katy, TX":
+    case "Lawrence, KS":
+    case "Manhattan, KS":
+    case "Nashville, TN":
+    case "Norman, OK":
+    case "Oklahoma City, OK":
+    case "Stillwater, OK":
+    case "St. Louis, MO":
+    case "Sugar Land, TX":
+      var marketZone = 'America/Indiana/Indianapolis';
+      break;
+    case "Phoenix, AZ": // MST markets
+    case "Denver, CO":
+    case "HungryBuffs":
+    case "Northern, CO":
+      var marketZone = 'America/Denver';
+      break;
+    case "HungryDucks": // PST markets
+    case "Mission Valley, CA":
+    case "Pacific Beach, CA":
+    case "Palo Alto, CA":
+    case "San Diego, CA":
+    case "San Francisco, CA":
+    case "San Jose, CA":
+    case "SBmenus":
+    case "Seattle, WA":
+      var marketZone = 'America/Los_Angeles';
+      break;
+  };
+  console.log("Market: " + market);
+  console.log("Timezone: " + marketZone);
+};
