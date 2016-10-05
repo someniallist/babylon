@@ -126,11 +126,12 @@ $("dt").each(function (index) {   // determine the index number of <dt>
       $("dd").eq(index).each(function(index) {
         var beforeData = $(this).attr("data-old");
         var afterData = $(this).attr("data-new");
+        var marketTimeZone = determineTimeZone();
           if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/.test(beforeData)) { // Date reformatting
-            beforeData = new Date(beforeData).toLocaleString('en-US', { timeZone: marketZone });
+            beforeData = new Date(beforeData).toLocaleString('en-US', { timeZone: marketTimeZone });
           }
           if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.000Z$/.test(afterData)) { // Date reformatting
-            afterData = new Date(afterData).toLocaleString('en-US', { timeZone: marketZone });
+            afterData = new Date(afterData).toLocaleString('en-US', { timeZone: marketTimeZone });
           }
         if (beforeData == "") { // make data-old empty json object
           beforeData = "{}";
@@ -205,6 +206,7 @@ function determineTimeZone() {
     case "West Chester, PA":
     case "Williamsburg, VA":
       var marketZone = 'America/New_York';
+      return marketZone;
       break;
     case "Austin, TX": // central markets
     case "Champaign, IL":
@@ -222,12 +224,14 @@ function determineTimeZone() {
     case "St. Louis, MO":
     case "Sugar Land, TX":
       var marketZone = 'America/Indiana/Indianapolis';
+      return marketZone;
       break;
     case "Phoenix, AZ": // MST markets
     case "Denver, CO":
     case "HungryBuffs":
     case "Northern, CO":
       var marketZone = 'America/Denver';
+      return marketZone;
       break;
     case "HungryDucks": // PST markets
     case "Mission Valley, CA":
@@ -239,6 +243,7 @@ function determineTimeZone() {
     case "SBmenus":
     case "Seattle, WA":
       var marketZone = 'America/Los_Angeles';
+      return marketZone;
       break;
   };
   console.log("Market: " + market);
