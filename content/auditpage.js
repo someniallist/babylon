@@ -14,15 +14,27 @@ var visualDiffFunction = function() {
       var action = $(this).find("td")[1]
       var auditType = $(action).find("div.muted")[1].textContent.trim()
 
-      if(auditType == "menu builder 3 update") {
+      var changesDt = $(this).find("td.changes > dl > dt")
+      var changesDd = $(this).find("td.changes > dl > dd")
 
-        // do something here for MB3
+      if(auditType == "menu builder 3 update") {
+        changesDt.each( function(dtIndex) {
+
+          var change = $(changesDd).eq(dtIndex)
+          var hash = change.text().trim()
+
+                              debugger
+          var json = hashToJSON(hash)
+
+
+
+          $(change).html(jsondiffpatch.formatters.html.format(json));
+
+
+        })
 
       }
       else {
-        var changesDt = $(this).find("td.changes > dl > dt")
-        var changesDd = $(this).find("td.changes > dl > dd")
-
         changesDt.each( function(dtIndex) {
           var searchResult = $(this).text().trim();
           switch (searchResult) {
