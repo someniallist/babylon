@@ -194,7 +194,13 @@ var visualDiffFunction = function() {
   };
 
 function hashToJSON(hash) {
-  var jsonString = hash.replace(/(".*?)("=>)(nil)/g, function(match, p1, p2) {
+  var jsonString = hash.replace(/(\[)(nil)(\])/g, function(match, p1, p2, p3) {
+    return `${p1+"null"+p3}`
+  }).replace(/(\[)(nil)(, .+\])/g, function(match, p1, p2, p3) {
+    return `${p1+"null"+p3}`
+  }).replace(/(\[)(.+, )(nil)(\])/g, function(match, p1, p2, p3, p4) {
+    return `${p1+p2+"null"+p4}`
+  }).replace(/(".*?)("=>)(nil)/g, function(match, p1, p2) {
     return `${p1+p2}null`
   }).replace(/(".*?)(")(=>)/g, function(match, p1, p2) {
     return `${p1+p2}:`
