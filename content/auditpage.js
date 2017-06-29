@@ -6,56 +6,56 @@
 //     console.log(originalData)
 //   });
 // });}
-
-var visualDiffFunction = function() {
-    var audits = $("table.table.table-condensed > tbody > tr")
-
-    audits.each( function(auditIndex) {
-      var action = $(this).find("td")[1]
-      var auditType = $(action).find("div.muted")[1].textContent.trim()
-
-      var changesDt = $(this).find("td.changes > dl > dt")
-      var changesDd = $(this).find("td.changes > dl > dd")
-
-      if(auditType == "menu builder 3 update") {
-        changesDt.each( function(dtIndex) {
-
-          var change = $(changesDd).eq(dtIndex)
-          var hash = change.text().trim()
-
-                              debugger
-          var json = hashToJSON(hash)
-
-
-
-          $(change).html(jsondiffpatch.formatters.html.format(json));
-
-
-        })
-
-      }
-      else {
-        changesDt.each( function(dtIndex) {
-          var searchResult = $(this).text().trim();
-          switch (searchResult) {
-            case "optionGroups": // hash diffing
-            case "prices":
-            case "sizes":
-            case "options":
-            case "restriction":
-            case "timesets":
-              debugger
-              $(changesDd).eq(dtIndex).each(function(ddIndex) { // match <dd>'s index with <dt>'s
-                  var beforeData = $(this).attr("data-old");
-                  var afterData = $(this).attr("data-new");
-                  var $rubyHash = $(this).text().trim();
-                  if (beforeData == "") { // make data-old empty json object
-                    beforeData = "{}";
-                  }
-                  if (afterData == "") { // make data-new empty json object
-                    afterData = "{}";
-                  }
-
+// 
+// var visualDiffFunction = function() {
+//     var audits = $("table.table.table-condensed > tbody > tr")
+//
+//     audits.each( function(auditIndex) {
+//       var action = $(this).find("td")[1]
+//       var auditType = $(action).find("div.muted")[1].textContent.trim()
+//
+//       var changesDt = $(this).find("td.changes > dl > dt")
+//       var changesDd = $(this).find("td.changes > dl > dd")
+//
+//       if(auditType == "menu builder 3 update") {
+//         changesDt.each( function(dtIndex) {
+//
+//           var change = $(changesDd).eq(dtIndex)
+//           var hash = change.text().trim()
+//
+//                               debugger
+//           var json = hashToJSON(hash)
+//
+//
+//
+//           $(change).html(jsondiffpatch.formatters.html.format(json));
+//
+//
+//         })
+//
+//       }
+//       else {
+//         changesDt.each( function(dtIndex) {
+//           var searchResult = $(this).text().trim();
+//           switch (searchResult) {
+//             case "optionGroups": // hash diffing
+//             case "prices":
+//             case "sizes":
+//             case "options":
+//             case "restriction":
+//             case "timesets":
+//               debugger
+//               $(changesDd).eq(dtIndex).each(function(ddIndex) { // match <dd>'s index with <dt>'s
+//                   var beforeData = $(this).attr("data-old");
+//                   var afterData = $(this).attr("data-new");
+//                   var $rubyHash = $(this).text().trim();
+//                   if (beforeData == "") { // make data-old empty json object
+//                     beforeData = "{}";
+//                   }
+//                   if (afterData == "") { // make data-new empty json object
+//                     afterData = "{}";
+//                   }
+//
 
 
                   var left = hashToJSON(beforeData);
